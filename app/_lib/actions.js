@@ -61,6 +61,32 @@ export async function createBooking(bookingData, formData) {
   redirect('/cabins/thankyou');
 }
 
+export async function createReview(formData) {
+  // console.log(formData);
+  const session = await auth();
+  if (!session) throw new Error('You must be logged in');
+  const cabinId = Number(formData.get('cabinId'));
+  const newReview = {
+    cabinId: cabinId,
+    guestId: Number(session.user.guestId),
+    comment: formData.get('comment'),
+    rating: formData.get('rating'),
+    email: session.user.email,
+  };
+  console.log(newReview);
+  const { data, error } = await supabase
+    .from('reviews')
+    .insert([newReview])
+    .select();
+  if (error) {
+    console.error(error);
+    throw new Error('Review could not be created');
+  }
+  // return data;
+  revalidatePath(`/cabins/${cabinId}`);
+  redirect('/cabins/valuedinput');
+}
+
 export async function deleteReservation(bookingId) {
   const session = await auth();
   if (!session) throw new Error('You must be logged in');

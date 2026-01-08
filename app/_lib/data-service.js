@@ -177,16 +177,3 @@ export async function createGuest(newGuest) {
 
   return data;
 }
-
-export async function createReview(newReview) {
-  const { data, error } = await supabase
-    .from('reviews')
-    .insert([newReview])
-    .select();
-  if (error) {
-    console.error(error);
-    throw new Error('Review could not be created');
-  }
-
-  return data;
-}

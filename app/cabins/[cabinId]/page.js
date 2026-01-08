@@ -1,5 +1,6 @@
 import Cabin from '@/app/_components/Cabin';
 import Reservation from '@/app/_components/Reservation';
+import ReviewForm from '@/app/_components/ReviewForm';
 import ReviewList from '@/app/_components/ReviewList';
 import Spinner from '@/app/_components/Spinner';
 import { getCabin, getCabins, getReviews } from '@/app/_lib/data-service';
@@ -27,7 +28,7 @@ export async function generateStaticParams() {
 export default async function Page({ params }) {
   const cabin = await getCabin(params.cabinId);
   const reviews = await getReviews(params.cabinId);
-  console.log(reviews);
+  // console.log(reviews);
 
   return (
     <div className='max-w-6xl mx-auto mt-8'>
@@ -40,6 +41,7 @@ export default async function Page({ params }) {
           <Reservation cabin={cabin} />
         </Suspense>
         <Suspense fallback={<Spinner />}>
+          <ReviewForm cabinId={cabin.id} />
           <ReviewList cabinId={cabin.id} reviews={reviews} />
         </Suspense>
       </div>
