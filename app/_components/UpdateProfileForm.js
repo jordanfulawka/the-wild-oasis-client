@@ -8,7 +8,6 @@ import SubmitButton from './SubmitButton';
 function UpdateProfileForm({ guest, children }) {
   const [count, setCount] = useState();
 
-  console.log(guest);
   const { fullName, email, nationality, nationalID, countryFlag } = guest;
   // CHANGE
   // const countryFlag = 'pt.jpg';
